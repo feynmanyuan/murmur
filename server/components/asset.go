@@ -2,193 +2,635 @@
 // sources:
 // static/html/index.html
 // static/js/flexible.js
+// static/js/test.js
+// static/murmur-vue/.babelrc
+// static/murmur-vue/.editorconfig
+// static/murmur-vue/.eslintignore
+// static/murmur-vue/.eslintrc.js
+// static/murmur-vue/.git
+// static/murmur-vue/.gitignore
+// static/murmur-vue/.postcssrc.js
+// static/murmur-vue/README.md
+// static/murmur-vue/build/build.js
+// static/murmur-vue/build/check-versions.js
+// static/murmur-vue/build/logo.png
+// static/murmur-vue/build/utils.js
+// static/murmur-vue/build/vue-loader.conf.js
+// static/murmur-vue/build/webpack.base.conf.js
+// static/murmur-vue/build/webpack.dev.conf.js
+// static/murmur-vue/build/webpack.prod.conf.js
+// static/murmur-vue/config/dev.env.js
+// static/murmur-vue/config/index.js
+// static/murmur-vue/config/prod.env.js
+// static/murmur-vue/index.html
+// static/murmur-vue/package.json
+// static/murmur-vue/src/App.vue
+// static/murmur-vue/src/components/ProfileMine.vue
+// static/murmur-vue/src/main.js
+// static/murmur-vue/src/router/index.js
+// static/murmur-vue/static/.gitkeep
+// static/murmur-vue/static/imgs/avatar.jpg
+// static/murmur-vue/static/imgs/fav.ico
+// static/murmur-vue/yarn.lock
 
 package asset
 
-
 import (
-	"bytes"
-	"compress/gzip"
 	"fmt"
-	"io"
 	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
-	"time"
 )
 
-func bindataRead(data []byte, name string) ([]byte, error) {
-	gz, err := gzip.NewReader(bytes.NewBuffer(data))
+// bindataRead reads the given file from disk. It returns an error on failure.
+func bindataRead(path, name string) ([]byte, error) {
+	buf, err := ioutil.ReadFile(path)
 	if err != nil {
-		return nil, fmt.Errorf("Read %q: %v", name, err)
+		err = fmt.Errorf("Error reading asset %s at %s: %v", name, path, err)
 	}
-
-	var buf bytes.Buffer
-	_, err = io.Copy(&buf, gz)
-	clErr := gz.Close()
-
-	if err != nil {
-		return nil, fmt.Errorf("Read %q: %v", name, err)
-	}
-	if clErr != nil {
-		return nil, err
-	}
-
-	return buf.Bytes(), nil
+	return buf, err
 }
-
 
 type asset struct {
 	bytes []byte
-	info  fileInfoEx
+	info  os.FileInfo
 }
 
-type fileInfoEx interface {
-	os.FileInfo
-	MD5Checksum() string
-}
-
-type bindataFileInfo struct {
-	name        string
-	size        int64
-	mode        os.FileMode
-	modTime     time.Time
-	md5checksum string
-}
-
-func (fi bindataFileInfo) Name() string {
-	return fi.name
-}
-func (fi bindataFileInfo) Size() int64 {
-	return fi.size
-}
-func (fi bindataFileInfo) Mode() os.FileMode {
-	return fi.mode
-}
-func (fi bindataFileInfo) ModTime() time.Time {
-	return fi.modTime
-}
-func (fi bindataFileInfo) MD5Checksum() string {
-	return fi.md5checksum
-}
-func (fi bindataFileInfo) IsDir() bool {
-	return false
-}
-func (fi bindataFileInfo) Sys() interface{} {
-	return nil
-}
-
-var _bindataStaticHtmlIndexhtml = []byte(
-	"\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\xb2\x51\x74\xf1\x77\x0e\x89\x0c\x70\x55\xc8\x28\xc9\xcd\xb1\xe3\xb2\x01" +
-	"\x51\x0a\x39\x89\x79\xe9\xb6\x4a\xa9\x79\x4a\x20\x81\xd4\xc4\x14\x3b\x2e\x05\x05\x05\x05\x9b\xdc\xd4\x92\x44\x85" +
-	"\xe4\x8c\xc4\xa2\xe2\xd4\x12\x5b\xa5\xd0\x10\x37\x5d\x0b\x25\xa8\x54\x49\x66\x49\x4e\xaa\x9d\x47\x6a\x4e\x4e\xbe" +
-	"\x42\x78\x7e\x51\x4e\x8a\x8d\x3e\x44\x88\xcb\x46\x1f\x62\x82\x4d\x52\x7e\x4a\xa5\x1d\x17\x92\x12\x45\x2e\x1b\x7d" +
-	"\x88\xa0\x8d\x3e\xd8\x76\x40\x00\x00\x00\xff\xff\x82\xa5\x2c\x5a\x8d\x00\x00\x00")
-
-func bindataStaticHtmlIndexhtmlBytes() ([]byte, error) {
-	return bindataRead(
-		_bindataStaticHtmlIndexhtml,
-		"static/html/index.html",
-	)
-}
-
-
-
+// bindataStaticHtmlIndexhtml reads file data from disk. It returns an error on failure.
 func bindataStaticHtmlIndexhtml() (*asset, error) {
-	bytes, err := bindataStaticHtmlIndexhtmlBytes()
+	path := "/Users/feynmanyuan/projects/blockchain/golang/riceis/src/bytemurmur.com/server/static/html/index.html"
+	name := "static/html/index.html"
+	bytes, err := bindataRead(path, name)
 	if err != nil {
 		return nil, err
 	}
 
-	info := bindataFileInfo{
-		name: "static/html/index.html",
-		size: 141,
-		md5checksum: "",
-		mode: os.FileMode(420),
-		modTime: time.Unix(1525072689, 0),
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
 	}
 
-	a := &asset{bytes: bytes, info: info}
-
-	return a, nil
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
 }
 
-var _bindataStaticJsFlexiblejs = []byte(
-	"\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\xb4\x57\x4f\x6f\x1b\x45\x14\xbf\xe7\x53\x4c\x2b\xd4\xdd\x6d\xcc\x3a\x76" +
-	"\xda\x93\xb5\x48\xa5\x7f\x44\xa5\x56\xad\x9a\x8a\x4b\x9a\xc3\x64\xe7\x39\x1e\x69\x77\x66\x99\x1d\xff\x49\x1b\x4b" +
-	"\x3d\x04\x0a\x6a\x03\x12\x8a\x8a\x88\x40\x2a\x12\x88\x72\x20\x05\x0e\x40\x69\x13\xbe\x4c\x6c\xf7\xd6\xaf\x80\x66" +
-	"\x67\xc7\xfb\xcf\x4e\xd3\x4a\xec\xc5\xeb\x99\xdf\xbc\x79\xef\xf7\x7e\xf3\xde\x6c\xcb\x6e\x77\x99\x2f\x29\x67\x76" +
-	"\x9f\xb2\x1a\x0a\xe8\xba\x83\xee\x2d\x20\x84\x50\x0f\x0b\x44\xb8\x8f\x3c\xd4\xa7\xcc\x25\xdc\xef\x86\xc0\x64\x2b" +
-	"\x3f\x77\x39\x40\x9e\xfa\x9d\xce\x5e\x0e\xa0\x08\x0a\x41\xe2\x29\xea\x93\x2e\x88\xcd\x15\x08\xc0\x97\x5c\xd8\x96" +
-	"\x9a\x5b\x65\x38\x04\xef\x74\x8f\x42\x3f\xe2\x42\x9e\x5e\xb3\x9c\x6c\x71\x3b\x80\x01\x5d\x0f\xe0\x04\x06\x0c\xb4" +
-	"\x68\x80\x44\x02\x79\x68\x29\x1b\x88\x7d\x1c\x40\x71\x48\x52\x52\xdd\x11\x79\x8a\x09\x77\xfa\x77\x6b\x0b\xd9\x85" +
-	"\x01\x0f\xdd\x1b\x3a\xad\x85\x64\x21\x6d\x23\x5b\xc7\x69\xa8\x53\x8f\xcf\x59\xcc\x03\x70\xfb\x58\x30\xdb\x1a\xfd" +
-	"\xf6\xd9\xf8\xc9\xf3\xf1\xce\xfe\xe8\xaf\x3f\xc6\xdf\x7d\x31\xd9\xdb\x56\x2b\xc6\x4f\x1e\x4c\x7e\x3d\x1c\x7f\xff" +
-	"\xd3\xab\xfd\xc3\xc9\xc1\xfe\xe4\xe5\x2f\xe3\xdd\xc3\xf1\xb3\xdd\xa3\xc3\x87\x26\x8c\x29\x91\x58\xfa\x1d\xe4\xa5" +
-	"\x84\xba\x1b\x20\x2f\x48\x29\xe8\x7a\x57\x82\x6d\xf9\x9c\x49\x60\xd2\x72\xdc\x04\x66\xd7\x29\xa3\x92\xe2\xe0\xce" +
-	"\xfb\x49\xc0\x9e\xbd\x7a\x87\xdc\x71\xd7\x16\x9d\x7a\xce\x6a\xe2\xb6\x82\xe7\xbd\x56\x8f\x21\x29\xc2\x22\x86\x2b" +
-	"\x01\xc7\x52\xe3\x56\x1b\x6b\xb9\xe5\xea\xd1\xfc\x26\xb8\xab\x4c\xda\x0d\x54\xd7\x8b\x73\xb0\x61\xf2\x36\x44\x10" +
-	"\xc4\x90\x6c\x99\x25\x35\xbf\xaf\x0a\x31\x8d\x02\x79\xb9\xc4\xcf\x0b\xb4\x18\x46\x3a\x5c\x0e\x44\x19\x4d\x99\xb8" +
-	"\x94\x78\x9a\xe2\x2a\x2c\x91\x48\xcc\xe6\x28\x63\x7f\x40\xc3\x6e\x38\xd3\x4a\x3a\xf7\x06\x2b\xca\xcd\xcc\x97\xb2" +
-	"\xa7\x25\x32\x35\xe9\x19\xbc\xca\xfc\x9c\x3c\x25\x29\x20\x91\x70\x5c\xc9\xaf\xd0\x01\x10\xbb\xe9\x94\x56\x0e\x2b" +
-	"\x6e\x65\xc1\x9d\xc8\xad\x0c\xfe\xff\xb8\x95\x2a\x26\x3b\x5b\xa7\x94\x0b\x67\xce\xa0\x53\x5a\x5b\x25\xd5\xd0\xf8" +
-	"\x02\x23\x82\x53\x92\x16\x2a\x86\x7b\x74\x03\x4b\x2e\x5c\x1c\x45\x1f\x83\x88\x29\x67\x26\x55\x58\x23\xeb\x1b\xb4" +
-	"\x74\xba\x68\x7c\xf5\x66\x87\x33\x38\x81\x0d\x1a\x29\x60\xd5\x04\x81\x1e\xf5\xe1\x26\x1d\x40\x70\x0b\x4b\xca\x4d" +
-	"\xdd\x2c\x0d\x17\x85\x6b\xf6\x2d\x13\x5f\xaf\x23\x7a\x63\xe5\xe8\xef\x87\xaf\x5f\x3e\x1a\x3d\x7b\x7e\xf4\xcf\x97" +
-	"\xcd\xd1\xd7\x8f\x96\x27\x7b\xdb\xa3\xdf\xbf\x7a\xfd\xf2\xd1\x64\xf7\x69\x73\x74\x7f\x67\xb2\xb7\x3d\x7e\xfc\x7c" +
-	"\xfc\xc3\xe7\x0a\xf6\xe9\x9f\x47\x07\xdf\x4e\xf6\xb6\x27\xbb\x4f\x1b\xa3\xfb\x3b\x7a\xa2\x92\xec\x8a\x9b\x1f\x78" +
-	"\x68\x59\xb1\xab\x69\xde\xda\x4a\x12\xae\x06\x9d\xf9\x6a\x58\x2e\xe5\x2e\x3b\xdd\xb3\xcc\x37\x67\x99\x6f\x3a\xce" +
-	"\x3c\xeb\xcd\x99\xd6\xe7\xa1\x1b\x73\x75\x34\x6b\x5d\xbd\x8e\x14\x51\x2f\x1e\xbf\xda\x3f\x1c\xfd\xf8\x40\x33\x7c" +
-	"\xf4\x62\x67\xfc\xcd\xcf\x47\x07\xff\xa6\xd4\x4d\x69\x9d\x51\xec\x1a\xe5\xd2\x86\x72\x92\x4f\x65\xde\xca\x2b\x38" +
-	"\x69\x93\x6e\x5c\x28\x63\x04\x4b\xac\xca\x85\x55\x4b\x4e\x45\x2b\x93\x7a\xb5\x8f\x14\x3a\xa8\x2f\x00\x4b\x48\xbb" +
-	"\xac\x6e\x80\xf9\x5a\x98\x36\x87\xe2\x66\xaa\x41\x5a\x35\x64\x99\x1e\xfb\xc6\x05\xa6\xc8\xd6\x90\x95\x96\xa0\xb4" +
-	"\x8d\x58\x68\x31\x0d\x75\x11\x59\x35\x53\x14\xe7\x4c\x52\x36\x7f\xb2\x1b\x83\x48\x66\xf0\x7a\x00\x1e\xe3\xe5\x7a" +
-	"\xae\x39\x6b\x53\x11\x9b\x1b\xc5\xc5\x0e\x0d\x48\x59\x90\x73\x60\xea\xd0\x02\x23\xc9\xbb\x69\xcc\xad\xe3\x65\xa1" +
-	"\x0e\x70\x5f\xe0\x68\x36\xcd\x84\xf6\xac\x52\xb9\x52\xe0\xe3\xf7\x49\x1d\x74\xfb\x82\x4a\xb0\x13\x3c\x65\x0c\xc4" +
-	"\x47\xb7\xaf\x5f\xab\xf6\x47\xad\x15\x73\x17\x43\x02\xda\x02\xe2\xce\x2d\x08\x6d\xa7\x58\xee\xfa\x94\xc8\x8e\x76" +
-	"\x53\x77\xc7\x0f\x79\x97\x11\xca\x36\x2e\x06\x14\x98\xbc\x05\xbe\xb4\x1d\x37\x41\x15\x39\xd5\x0b\xeb\xfa\xfc\xa1" +
-	"\xf3\xe7\x96\xca\x6c\x1a\xcb\xe7\xcf\x2d\xa1\xb3\x99\x8c\x8b\x4a\x57\x2e\x08\x08\x93\xe2\xa6\xed\x35\x96\x32\x5c" +
-	"\xaa\x75\xb9\x19\x80\xdb\xe6\x4c\xae\xd0\xbb\xea\x58\xa8\x05\x8b\xc8\x8a\x06\x56\x06\x35\x2d\xde\x35\xd6\x58\xfa" +
-	"\x26\x20\x2c\x9c\x1f\x35\x83\x09\xb9\xdc\x03\x26\xaf\xd1\x58\x02\x03\x61\x5b\x02\x62\x7a\x57\xc9\x7a\x7a\x7d\x2d" +
-	"\xdc\xbd\x02\xc0\xe2\x36\x0d\x81\x77\xa5\x2d\x29\xc9\xf1\x2d\x93\x46\x11\x83\x34\xd3\x19\xd5\x35\xb4\xbc\xb4\x94" +
-	"\x42\x87\x35\xd4\xc6\x41\x6c\x6e\x32\xb3\x9d\x88\xf0\x06\xc4\x1d\xde\xcf\xbb\x51\x28\xe5\x8a\x77\x70\x23\xd5\x40" +
-	"\x62\x09\x15\xfd\x1e\xe3\xe6\x5b\xb8\x9a\x53\x51\xe6\xf4\xb4\xa2\x28\x09\x0a\xc0\x64\x73\x45\x62\x09\xc8\xf3\x3c" +
-	"\x64\xf9\x3c\x8c\x02\x90\x60\xe5\x1d\x52\xc0\x75\x4e\x36\xab\xe9\x6b\x34\xb5\x1e\x0a\x39\xac\x1c\x23\xb5\xbe\x4a" +
-	"\xd1\xa5\x1b\xd7\x2f\xea\x72\x72\x8d\x63\x02\x64\x2e\x55\xef\xe0\xc2\x8c\x3c\x0d\x17\x74\xe4\xf9\xf3\x93\x92\x31" +
-	"\x15\x9c\xae\xe3\x49\x6f\x4e\xde\xa6\x4a\xcf\x49\xd2\xac\x4e\xf4\x68\xfe\x54\x50\x61\x33\x1a\xa8\xdb\xaa\x09\x88" +
-	"\x94\xef\x26\x3d\x1c\x14\x2f\x42\xc4\x41\x67\x91\xec\xd0\xd8\x9d\xca\xdc\x24\x4a\x6e\x46\xc0\xdb\x88\xe8\x14\xc5" +
-	"\x52\x50\xb6\x61\xa9\xce\x49\xcc\xcd\x43\x40\xf8\x5e\xbd\xd2\x95\xd5\x1e\x8b\x5e\x99\x96\xe9\x9b\x00\xd9\x15\x4c" +
-	"\xa1\x0c\x43\x85\x20\xa2\x41\x53\x1f\xbb\xb7\x0b\xa2\xfe\xce\x41\x44\x83\x63\x62\x10\x10\x9e\x30\x88\x85\xa1\xa3" +
-	"\x3e\x58\x09\xef\xd7\x90\xfe\x5d\xb5\x02\xba\x6e\xad\x25\x9f\x6a\xc5\x91\xe4\x5b\xcd\x69\x2d\xfc\x17\x00\x00\xff" +
-	"\xff\x61\xbc\xcb\xc3\xec\x0e\x00\x00")
-
-func bindataStaticJsFlexiblejsBytes() ([]byte, error) {
-	return bindataRead(
-		_bindataStaticJsFlexiblejs,
-		"static/js/flexible.js",
-	)
-}
-
-
-
+// bindataStaticJsFlexiblejs reads file data from disk. It returns an error on failure.
 func bindataStaticJsFlexiblejs() (*asset, error) {
-	bytes, err := bindataStaticJsFlexiblejsBytes()
+	path := "/Users/feynmanyuan/projects/blockchain/golang/riceis/src/bytemurmur.com/server/static/js/flexible.js"
+	name := "static/js/flexible.js"
+	bytes, err := bindataRead(path, name)
 	if err != nil {
 		return nil, err
 	}
 
-	info := bindataFileInfo{
-		name: "static/js/flexible.js",
-		size: 3820,
-		md5checksum: "",
-		mode: os.FileMode(420),
-		modTime: time.Unix(1513959640, 0),
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
 	}
 
-	a := &asset{bytes: bytes, info: info}
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
 
-	return a, nil
+// bindataStaticJsTestjs reads file data from disk. It returns an error on failure.
+func bindataStaticJsTestjs() (*asset, error) {
+	path := "/Users/feynmanyuan/projects/blockchain/golang/riceis/src/bytemurmur.com/server/static/js/test.js"
+	name := "static/js/test.js"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
+// bindataStaticMurmurvueBabelrc reads file data from disk. It returns an error on failure.
+func bindataStaticMurmurvueBabelrc() (*asset, error) {
+	path := "/Users/feynmanyuan/projects/blockchain/golang/riceis/src/bytemurmur.com/server/static/murmur-vue/.babelrc"
+	name := "static/murmur-vue/.babelrc"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
+// bindataStaticMurmurvueEditorconfig reads file data from disk. It returns an error on failure.
+func bindataStaticMurmurvueEditorconfig() (*asset, error) {
+	path := "/Users/feynmanyuan/projects/blockchain/golang/riceis/src/bytemurmur.com/server/static/murmur-vue/.editorconfig"
+	name := "static/murmur-vue/.editorconfig"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
+// bindataStaticMurmurvueEslintignore reads file data from disk. It returns an error on failure.
+func bindataStaticMurmurvueEslintignore() (*asset, error) {
+	path := "/Users/feynmanyuan/projects/blockchain/golang/riceis/src/bytemurmur.com/server/static/murmur-vue/.eslintignore"
+	name := "static/murmur-vue/.eslintignore"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
+// bindataStaticMurmurvueEslintrcjs reads file data from disk. It returns an error on failure.
+func bindataStaticMurmurvueEslintrcjs() (*asset, error) {
+	path := "/Users/feynmanyuan/projects/blockchain/golang/riceis/src/bytemurmur.com/server/static/murmur-vue/.eslintrc.js"
+	name := "static/murmur-vue/.eslintrc.js"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
+// bindataStaticMurmurvueGit reads file data from disk. It returns an error on failure.
+func bindataStaticMurmurvueGit() (*asset, error) {
+	path := "/Users/feynmanyuan/projects/blockchain/golang/riceis/src/bytemurmur.com/server/static/murmur-vue/.git"
+	name := "static/murmur-vue/.git"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
+// bindataStaticMurmurvueGitignore reads file data from disk. It returns an error on failure.
+func bindataStaticMurmurvueGitignore() (*asset, error) {
+	path := "/Users/feynmanyuan/projects/blockchain/golang/riceis/src/bytemurmur.com/server/static/murmur-vue/.gitignore"
+	name := "static/murmur-vue/.gitignore"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
+// bindataStaticMurmurvuePostcssrcjs reads file data from disk. It returns an error on failure.
+func bindataStaticMurmurvuePostcssrcjs() (*asset, error) {
+	path := "/Users/feynmanyuan/projects/blockchain/golang/riceis/src/bytemurmur.com/server/static/murmur-vue/.postcssrc.js"
+	name := "static/murmur-vue/.postcssrc.js"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
+// bindataStaticMurmurvueREADMEmd reads file data from disk. It returns an error on failure.
+func bindataStaticMurmurvueREADMEmd() (*asset, error) {
+	path := "/Users/feynmanyuan/projects/blockchain/golang/riceis/src/bytemurmur.com/server/static/murmur-vue/README.md"
+	name := "static/murmur-vue/README.md"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
+// bindataStaticMurmurvueBuildBuildjs reads file data from disk. It returns an error on failure.
+func bindataStaticMurmurvueBuildBuildjs() (*asset, error) {
+	path := "/Users/feynmanyuan/projects/blockchain/golang/riceis/src/bytemurmur.com/server/static/murmur-vue/build/build.js"
+	name := "static/murmur-vue/build/build.js"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
+// bindataStaticMurmurvueBuildCheckversionsjs reads file data from disk. It returns an error on failure.
+func bindataStaticMurmurvueBuildCheckversionsjs() (*asset, error) {
+	path := "/Users/feynmanyuan/projects/blockchain/golang/riceis/src/bytemurmur.com/server/static/murmur-vue/build/check-versions.js"
+	name := "static/murmur-vue/build/check-versions.js"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
+// bindataStaticMurmurvueBuildLogopng reads file data from disk. It returns an error on failure.
+func bindataStaticMurmurvueBuildLogopng() (*asset, error) {
+	path := "/Users/feynmanyuan/projects/blockchain/golang/riceis/src/bytemurmur.com/server/static/murmur-vue/build/logo.png"
+	name := "static/murmur-vue/build/logo.png"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
+// bindataStaticMurmurvueBuildUtilsjs reads file data from disk. It returns an error on failure.
+func bindataStaticMurmurvueBuildUtilsjs() (*asset, error) {
+	path := "/Users/feynmanyuan/projects/blockchain/golang/riceis/src/bytemurmur.com/server/static/murmur-vue/build/utils.js"
+	name := "static/murmur-vue/build/utils.js"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
+// bindataStaticMurmurvueBuildVueloaderconfjs reads file data from disk. It returns an error on failure.
+func bindataStaticMurmurvueBuildVueloaderconfjs() (*asset, error) {
+	path := "/Users/feynmanyuan/projects/blockchain/golang/riceis/src/bytemurmur.com/server/static/murmur-vue/build/vue-loader.conf.js"
+	name := "static/murmur-vue/build/vue-loader.conf.js"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
+// bindataStaticMurmurvueBuildWebpackbaseconfjs reads file data from disk. It returns an error on failure.
+func bindataStaticMurmurvueBuildWebpackbaseconfjs() (*asset, error) {
+	path := "/Users/feynmanyuan/projects/blockchain/golang/riceis/src/bytemurmur.com/server/static/murmur-vue/build/webpack.base.conf.js"
+	name := "static/murmur-vue/build/webpack.base.conf.js"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
+// bindataStaticMurmurvueBuildWebpackdevconfjs reads file data from disk. It returns an error on failure.
+func bindataStaticMurmurvueBuildWebpackdevconfjs() (*asset, error) {
+	path := "/Users/feynmanyuan/projects/blockchain/golang/riceis/src/bytemurmur.com/server/static/murmur-vue/build/webpack.dev.conf.js"
+	name := "static/murmur-vue/build/webpack.dev.conf.js"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
+// bindataStaticMurmurvueBuildWebpackprodconfjs reads file data from disk. It returns an error on failure.
+func bindataStaticMurmurvueBuildWebpackprodconfjs() (*asset, error) {
+	path := "/Users/feynmanyuan/projects/blockchain/golang/riceis/src/bytemurmur.com/server/static/murmur-vue/build/webpack.prod.conf.js"
+	name := "static/murmur-vue/build/webpack.prod.conf.js"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
+// bindataStaticMurmurvueConfigDevenvjs reads file data from disk. It returns an error on failure.
+func bindataStaticMurmurvueConfigDevenvjs() (*asset, error) {
+	path := "/Users/feynmanyuan/projects/blockchain/golang/riceis/src/bytemurmur.com/server/static/murmur-vue/config/dev.env.js"
+	name := "static/murmur-vue/config/dev.env.js"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
+// bindataStaticMurmurvueConfigIndexjs reads file data from disk. It returns an error on failure.
+func bindataStaticMurmurvueConfigIndexjs() (*asset, error) {
+	path := "/Users/feynmanyuan/projects/blockchain/golang/riceis/src/bytemurmur.com/server/static/murmur-vue/config/index.js"
+	name := "static/murmur-vue/config/index.js"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
+// bindataStaticMurmurvueConfigProdenvjs reads file data from disk. It returns an error on failure.
+func bindataStaticMurmurvueConfigProdenvjs() (*asset, error) {
+	path := "/Users/feynmanyuan/projects/blockchain/golang/riceis/src/bytemurmur.com/server/static/murmur-vue/config/prod.env.js"
+	name := "static/murmur-vue/config/prod.env.js"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
+// bindataStaticMurmurvueIndexhtml reads file data from disk. It returns an error on failure.
+func bindataStaticMurmurvueIndexhtml() (*asset, error) {
+	path := "/Users/feynmanyuan/projects/blockchain/golang/riceis/src/bytemurmur.com/server/static/murmur-vue/index.html"
+	name := "static/murmur-vue/index.html"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
+// bindataStaticMurmurvuePackagejson reads file data from disk. It returns an error on failure.
+func bindataStaticMurmurvuePackagejson() (*asset, error) {
+	path := "/Users/feynmanyuan/projects/blockchain/golang/riceis/src/bytemurmur.com/server/static/murmur-vue/package.json"
+	name := "static/murmur-vue/package.json"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
+// bindataStaticMurmurvueSrcAppvue reads file data from disk. It returns an error on failure.
+func bindataStaticMurmurvueSrcAppvue() (*asset, error) {
+	path := "/Users/feynmanyuan/projects/blockchain/golang/riceis/src/bytemurmur.com/server/static/murmur-vue/src/App.vue"
+	name := "static/murmur-vue/src/App.vue"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
+// bindataStaticMurmurvueSrcComponentsProfileMinevue reads file data from disk. It returns an error on failure.
+func bindataStaticMurmurvueSrcComponentsProfileMinevue() (*asset, error) {
+	path := "/Users/feynmanyuan/projects/blockchain/golang/riceis/src/bytemurmur.com/server/static/murmur-vue/src/components/ProfileMine.vue"
+	name := "static/murmur-vue/src/components/ProfileMine.vue"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
+// bindataStaticMurmurvueSrcMainjs reads file data from disk. It returns an error on failure.
+func bindataStaticMurmurvueSrcMainjs() (*asset, error) {
+	path := "/Users/feynmanyuan/projects/blockchain/golang/riceis/src/bytemurmur.com/server/static/murmur-vue/src/main.js"
+	name := "static/murmur-vue/src/main.js"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
+// bindataStaticMurmurvueSrcRouterIndexjs reads file data from disk. It returns an error on failure.
+func bindataStaticMurmurvueSrcRouterIndexjs() (*asset, error) {
+	path := "/Users/feynmanyuan/projects/blockchain/golang/riceis/src/bytemurmur.com/server/static/murmur-vue/src/router/index.js"
+	name := "static/murmur-vue/src/router/index.js"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
+// bindataStaticMurmurvueStaticGitkeep reads file data from disk. It returns an error on failure.
+func bindataStaticMurmurvueStaticGitkeep() (*asset, error) {
+	path := "/Users/feynmanyuan/projects/blockchain/golang/riceis/src/bytemurmur.com/server/static/murmur-vue/static/.gitkeep"
+	name := "static/murmur-vue/static/.gitkeep"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
+// bindataStaticMurmurvueStaticImgsAvatarjpg reads file data from disk. It returns an error on failure.
+func bindataStaticMurmurvueStaticImgsAvatarjpg() (*asset, error) {
+	path := "/Users/feynmanyuan/projects/blockchain/golang/riceis/src/bytemurmur.com/server/static/murmur-vue/static/imgs/avatar.jpg"
+	name := "static/murmur-vue/static/imgs/avatar.jpg"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
+// bindataStaticMurmurvueStaticImgsFavico reads file data from disk. It returns an error on failure.
+func bindataStaticMurmurvueStaticImgsFavico() (*asset, error) {
+	path := "/Users/feynmanyuan/projects/blockchain/golang/riceis/src/bytemurmur.com/server/static/murmur-vue/static/imgs/fav.ico"
+	name := "static/murmur-vue/static/imgs/fav.ico"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
+}
+
+// bindataStaticMurmurvueYarnlock reads file data from disk. It returns an error on failure.
+func bindataStaticMurmurvueYarnlock() (*asset, error) {
+	path := "/Users/feynmanyuan/projects/blockchain/golang/riceis/src/bytemurmur.com/server/static/murmur-vue/yarn.lock"
+	name := "static/murmur-vue/yarn.lock"
+	bytes, err := bindataRead(path, name)
+	if err != nil {
+		return nil, err
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		err = fmt.Errorf("Error reading asset info %s at %s: %v", name, path, err)
+	}
+
+	a := &asset{bytes: bytes, info: fi}
+	return a, err
 }
 
 
@@ -255,8 +697,38 @@ func AssetNames() []string {
 // _bindata is a table, holding each asset generator, mapped to its name.
 //
 var _bindata = map[string]func() (*asset, error){
-	"static/html/index.html": bindataStaticHtmlIndexhtml,
-	"static/js/flexible.js":  bindataStaticJsFlexiblejs,
+	"static/html/index.html":                           bindataStaticHtmlIndexhtml,
+	"static/js/flexible.js":                            bindataStaticJsFlexiblejs,
+	"static/js/test.js":                                bindataStaticJsTestjs,
+	"static/murmur-vue/.babelrc":                       bindataStaticMurmurvueBabelrc,
+	"static/murmur-vue/.editorconfig":                  bindataStaticMurmurvueEditorconfig,
+	"static/murmur-vue/.eslintignore":                  bindataStaticMurmurvueEslintignore,
+	"static/murmur-vue/.eslintrc.js":                   bindataStaticMurmurvueEslintrcjs,
+	"static/murmur-vue/.git":                           bindataStaticMurmurvueGit,
+	"static/murmur-vue/.gitignore":                     bindataStaticMurmurvueGitignore,
+	"static/murmur-vue/.postcssrc.js":                  bindataStaticMurmurvuePostcssrcjs,
+	"static/murmur-vue/README.md":                      bindataStaticMurmurvueREADMEmd,
+	"static/murmur-vue/build/build.js":                 bindataStaticMurmurvueBuildBuildjs,
+	"static/murmur-vue/build/check-versions.js":        bindataStaticMurmurvueBuildCheckversionsjs,
+	"static/murmur-vue/build/logo.png":                 bindataStaticMurmurvueBuildLogopng,
+	"static/murmur-vue/build/utils.js":                 bindataStaticMurmurvueBuildUtilsjs,
+	"static/murmur-vue/build/vue-loader.conf.js":       bindataStaticMurmurvueBuildVueloaderconfjs,
+	"static/murmur-vue/build/webpack.base.conf.js":     bindataStaticMurmurvueBuildWebpackbaseconfjs,
+	"static/murmur-vue/build/webpack.dev.conf.js":      bindataStaticMurmurvueBuildWebpackdevconfjs,
+	"static/murmur-vue/build/webpack.prod.conf.js":     bindataStaticMurmurvueBuildWebpackprodconfjs,
+	"static/murmur-vue/config/dev.env.js":              bindataStaticMurmurvueConfigDevenvjs,
+	"static/murmur-vue/config/index.js":                bindataStaticMurmurvueConfigIndexjs,
+	"static/murmur-vue/config/prod.env.js":             bindataStaticMurmurvueConfigProdenvjs,
+	"static/murmur-vue/index.html":                     bindataStaticMurmurvueIndexhtml,
+	"static/murmur-vue/package.json":                   bindataStaticMurmurvuePackagejson,
+	"static/murmur-vue/src/App.vue":                    bindataStaticMurmurvueSrcAppvue,
+	"static/murmur-vue/src/components/ProfileMine.vue": bindataStaticMurmurvueSrcComponentsProfileMinevue,
+	"static/murmur-vue/src/main.js":                    bindataStaticMurmurvueSrcMainjs,
+	"static/murmur-vue/src/router/index.js":            bindataStaticMurmurvueSrcRouterIndexjs,
+	"static/murmur-vue/static/.gitkeep":                bindataStaticMurmurvueStaticGitkeep,
+	"static/murmur-vue/static/imgs/avatar.jpg":         bindataStaticMurmurvueStaticImgsAvatarjpg,
+	"static/murmur-vue/static/imgs/fav.ico":            bindataStaticMurmurvueStaticImgsFavico,
+	"static/murmur-vue/yarn.lock":                      bindataStaticMurmurvueYarnlock,
 }
 
 //
@@ -317,6 +789,52 @@ var _bintree = &bintree{Func: nil, Children: map[string]*bintree{
 		}},
 		"js": {Func: nil, Children: map[string]*bintree{
 			"flexible.js": {Func: bindataStaticJsFlexiblejs, Children: map[string]*bintree{}},
+			"test.js": {Func: bindataStaticJsTestjs, Children: map[string]*bintree{}},
+		}},
+		"murmur-vue": {Func: nil, Children: map[string]*bintree{
+			".babelrc": {Func: bindataStaticMurmurvueBabelrc, Children: map[string]*bintree{}},
+			".editorconfig": {Func: bindataStaticMurmurvueEditorconfig, Children: map[string]*bintree{}},
+			".eslintignore": {Func: bindataStaticMurmurvueEslintignore, Children: map[string]*bintree{}},
+			".eslintrc.js": {Func: bindataStaticMurmurvueEslintrcjs, Children: map[string]*bintree{}},
+			".git": {Func: bindataStaticMurmurvueGit, Children: map[string]*bintree{}},
+			".gitignore": {Func: bindataStaticMurmurvueGitignore, Children: map[string]*bintree{}},
+			".postcssrc.js": {Func: bindataStaticMurmurvuePostcssrcjs, Children: map[string]*bintree{}},
+			"README.md": {Func: bindataStaticMurmurvueREADMEmd, Children: map[string]*bintree{}},
+			"build": {Func: nil, Children: map[string]*bintree{
+				"build.js": {Func: bindataStaticMurmurvueBuildBuildjs, Children: map[string]*bintree{}},
+				"check-versions.js": {Func: bindataStaticMurmurvueBuildCheckversionsjs, Children: map[string]*bintree{}},
+				"logo.png": {Func: bindataStaticMurmurvueBuildLogopng, Children: map[string]*bintree{}},
+				"utils.js": {Func: bindataStaticMurmurvueBuildUtilsjs, Children: map[string]*bintree{}},
+				"vue-loader.conf.js": {Func: bindataStaticMurmurvueBuildVueloaderconfjs, Children: map[string]*bintree{}},
+				"webpack.base.conf.js": {Func: bindataStaticMurmurvueBuildWebpackbaseconfjs, Children: map[string]*bintree{}},
+				"webpack.dev.conf.js": {Func: bindataStaticMurmurvueBuildWebpackdevconfjs, Children: map[string]*bintree{}},
+				"webpack.prod.conf.js": {Func: bindataStaticMurmurvueBuildWebpackprodconfjs, Children: map[string]*bintree{}},
+			}},
+			"config": {Func: nil, Children: map[string]*bintree{
+				"dev.env.js": {Func: bindataStaticMurmurvueConfigDevenvjs, Children: map[string]*bintree{}},
+				"index.js": {Func: bindataStaticMurmurvueConfigIndexjs, Children: map[string]*bintree{}},
+				"prod.env.js": {Func: bindataStaticMurmurvueConfigProdenvjs, Children: map[string]*bintree{}},
+			}},
+			"index.html": {Func: bindataStaticMurmurvueIndexhtml, Children: map[string]*bintree{}},
+			"package.json": {Func: bindataStaticMurmurvuePackagejson, Children: map[string]*bintree{}},
+			"src": {Func: nil, Children: map[string]*bintree{
+				"App.vue": {Func: bindataStaticMurmurvueSrcAppvue, Children: map[string]*bintree{}},
+				"components": {Func: nil, Children: map[string]*bintree{
+					"ProfileMine.vue": {Func: bindataStaticMurmurvueSrcComponentsProfileMinevue, Children: map[string]*bintree{}},
+				}},
+				"main.js": {Func: bindataStaticMurmurvueSrcMainjs, Children: map[string]*bintree{}},
+				"router": {Func: nil, Children: map[string]*bintree{
+					"index.js": {Func: bindataStaticMurmurvueSrcRouterIndexjs, Children: map[string]*bintree{}},
+				}},
+			}},
+			"static": {Func: nil, Children: map[string]*bintree{
+				".gitkeep": {Func: bindataStaticMurmurvueStaticGitkeep, Children: map[string]*bintree{}},
+				"imgs": {Func: nil, Children: map[string]*bintree{
+					"avatar.jpg": {Func: bindataStaticMurmurvueStaticImgsAvatarjpg, Children: map[string]*bintree{}},
+					"fav.ico": {Func: bindataStaticMurmurvueStaticImgsFavico, Children: map[string]*bintree{}},
+				}},
+			}},
+			"yarn.lock": {Func: bindataStaticMurmurvueYarnlock, Children: map[string]*bintree{}},
 		}},
 	}},
 }}

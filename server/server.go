@@ -6,6 +6,7 @@ import (
 	"log"
 	"sync"
 	"bytemurmur.com/server/components/router"
+	"net"
 )
 
 type HTTPServer struct{
@@ -29,6 +30,30 @@ func NewHTTPServer() (*HTTPServer, error) {
 	router.Register("/", &handler.DashboardHandler{})
 
 	go srv.server()
+
+	return srv, nil
+}
+
+func NewHTTPServerWithoutServer(isReady chan bool) (*HTTPServer, error) {
+
+	srv := &HTTPServer{
+		stopChan: 	make(chan struct{}, 1),
+		lock: 		&sync.Mutex{},
+		srv: 		nil,
+	}
+
+	router.Register("/", &handler.DashboardHandler{})
+
+	listener, err := net.Listen("tcp", ":4621")
+
+
+	if err != nil {
+		return nil, err
+	}
+
+	isReady <- true
+
+	go http.Serve(listener, &router.HTTPHandler{})
 
 	return srv, nil
 }

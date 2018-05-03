@@ -181,7 +181,7 @@ func Register(regexPath string, handler Handler) {
 	for i, path := range pathSlice {
 		if strings.HasPrefix(path, ":") {
 			index := len(path)
-			if paramCutFor := strings.Index(path, "(");index != -1 {
+			if paramCutFor := strings.Index(path, "("); paramCutFor != -1 {
 				expr = path[paramCutFor:]
 				index = paramCutFor
 			}

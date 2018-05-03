@@ -1,4 +1,3 @@
-// run command: GOPATH=/Users/feynmanyuan/projects/blockchain/golang/riceis:$GOPATH qtdeploy test desktop .
 package ui
 
 import (
