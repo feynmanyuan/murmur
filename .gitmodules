@@ -1,3 +1,3 @@
-[submodule "server/static/murmur-vue"]
-	path = server/static/murmur-vue
+[submodule "server/murmur-vue"]
+	path = server/murmur-vue
 	url = git://github.com/feynmanyuan/murmur-vue.git

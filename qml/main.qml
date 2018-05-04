@@ -26,7 +26,7 @@ ApplicationWindow {
     WebView {
         id: webView
         anchors.fill: parent
-        url: "http://localhost:4621/static/html/index.html"
+        url: "http://localhost:4621/static/dist/index.html"
         onLoadingChanged: {
             if (loadRequest.errorString)
                 console.error(loadRequest.errorString);

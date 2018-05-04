@@ -27,7 +27,3 @@ func TestStaticMapping(t *testing.T) {
 	assert.True(t, exists)
 	assert.Equal(t, "/static/", v)
 }
-
-func TestRegister(t *testing.T) {
-
-}

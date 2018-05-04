@@ -17,8 +17,6 @@ type HTTPServer struct{
 
 func NewHTTPServer() (*HTTPServer, error) {
 
-	//router.Register("/test", HandlerRequest)
-
 	srv := &HTTPServer{
 		stopChan: 	make(chan struct{}, 1),
 		lock: 		&sync.Mutex{},
