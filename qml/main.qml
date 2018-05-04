@@ -1,5 +1,6 @@
 import QtQuick 2.2
 import QtQuick.Controls 1.1
+import QtQuick.Window 2.1
 import QtWebView 1.1
 import QtQuick.Layouts 1.1
 import QtQuick.Controls.Styles 1.2
@@ -10,9 +11,10 @@ ApplicationWindow {
                                 && Qt.platform.os !== "winphone"
                                 && Qt.platform.os !== "winrt"
     visible: true
-    width: 520
-    height: 480
+    width: Screen.width
+    height: Screen.height
     title: webView.title
+    flags: Qt.Window | 0x00800000
 
     statusBar: StatusBar {
         id: statusBar
