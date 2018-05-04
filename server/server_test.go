@@ -14,6 +14,12 @@ import (
 	"fmt"
 )
 
+func TestServer(t *testing.T) {
+	c := make(chan bool, 1)
+	NewHTTPServer()
+	<-c
+}
+
 func TestNewHTTPServer(t *testing.T) {
 	c := make(chan bool, 1)
 	srv, err := NewHTTPServerWithoutServer(c)

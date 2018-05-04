@@ -24,6 +24,8 @@
 #   go-tests = true
 #   unused-packages = true
 
+ignored = ["github.com/therecipe/qt/*"]
+
 
 [[constraint]]
   name = "github.com/elazarl/go-bindata-assetfs"
@@ -32,10 +34,6 @@
 [[constraint]]
   name = "github.com/stretchr/testify"
   version = "1.2.1"
-
-[[constraint]]
-  branch = "master"
-  name = "github.com/therecipe/qt"
 
 [prune]
   go-tests = true

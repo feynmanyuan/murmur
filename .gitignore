@@ -89,4 +89,4 @@ Temporary Items
 .nfs*
 
 bin/
-command
+command.md
