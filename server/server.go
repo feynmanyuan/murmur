@@ -1,71 +1,70 @@
 package server
 
 import (
-	"net/http"
-	"bytemurmur.com/server/handler"
-	"log"
-	"sync"
-	"bytemurmur.com/server/components/router"
-	"net"
+    "net/http"
+    "bytemurmur.com/server/handler"
+    "log"
+    "sync"
+    "bytemurmur.com/server/components/router"
+    "net"
 )
 
-type HTTPServer struct{
-	stopChan  	chan struct{}
-	lock      	*sync.Mutex
-	srv    		*http.Server
+type HTTPServer struct {
+    stopChan chan struct{}
+    lock     *sync.Mutex
+    srv      *http.Server
 }
 
 func NewHTTPServer() (*HTTPServer, error) {
 
-	srv := &HTTPServer{
-		stopChan: 	make(chan struct{}, 1),
-		lock: 		&sync.Mutex{},
-		srv: 		&http.Server{Addr: ":4621"},
-	}
+    srv := &HTTPServer{
+        stopChan: make(chan struct{}, 1),
+        lock:     &sync.Mutex{},
+        srv:      &http.Server{Addr: ":4621"},
+    }
 
-	srv.srv.Handler = &router.HTTPHandler{}
+    srv.srv.Handler = &router.HTTPHandler{}
 
-	router.Register("/", &handler.DashboardHandler{})
+    router.Register("/", &handler.DashboardHandler{})
 
-	go srv.server()
+    go srv.server()
 
-	return srv, nil
+    return srv, nil
 }
 
 func NewHTTPServerWithoutServer(isReady chan bool) (*HTTPServer, error) {
 
-	srv := &HTTPServer{
-		stopChan: 	make(chan struct{}, 1),
-		lock: 		&sync.Mutex{},
-		srv: 		nil,
-	}
+    srv := &HTTPServer{
+        stopChan: make(chan struct{}, 1),
+        lock:     &sync.Mutex{},
+        srv:      nil,
+    }
 
-	router.Register("/", &handler.DashboardHandler{})
+    router.Register("/", &handler.DashboardHandler{})
 
-	listener, err := net.Listen("tcp", ":4621")
+    listener, err := net.Listen("tcp", ":4621")
 
+    if err != nil {
+        return nil, err
+    }
 
-	if err != nil {
-		return nil, err
-	}
+    isReady <- true
 
-	isReady <- true
+    go http.Serve(listener, &router.HTTPHandler{})
 
-	go http.Serve(listener, &router.HTTPHandler{})
-
-	return srv, nil
+    return srv, nil
 }
 
 func (server *HTTPServer) Stop() {
-	server.lock.Lock()
-	defer server.lock.Unlock()
-	server.srv.Shutdown(nil)
+    server.lock.Lock()
+    defer server.lock.Unlock()
+    server.srv.Shutdown(nil)
 }
 
-func (server *HTTPServer) server () {
-	http.HandleFunc("/", handler.DashboardIndex)
-	err := server.srv.ListenAndServe()
-	if err != nil {
-		log.Fatal("ListenAndServe: ", err)
-	}
+func (server *HTTPServer) server() {
+    http.HandleFunc("/", handler.DashboardIndex)
+    err := server.srv.ListenAndServe()
+    if err != nil {
+        log.Fatal("ListenAndServe: ", err)
+    }
 }

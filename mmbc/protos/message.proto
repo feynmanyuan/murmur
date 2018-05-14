@@ -6,22 +6,24 @@ option go_package = "bytemurmur.com/mmbc/protos";
 package gossip;
 
 service Gossip {
-    rpc GossipStream ( stream Envelope ) returns (stream Envelope) {}
-    rpc Ping (Empty) returns (Empty) {}
+    rpc GossipStream (stream Envelope) returns (stream Envelope) {
+    }
+    rpc Ping (Empty) returns (Empty) {
+    }
 }
 
 message GossipMessage {
-    uint64 nonce  = 1;
+    uint64 nonce = 1;
 
     bytes channel = 2;
 
     enum Tag {
-        UNDEFINED    = 0;
-        EMPTY        = 1;
-        ORG_ONLY     = 2;
-        CHAN_ONLY    = 3;
+        UNDEFINED = 0;
+        EMPTY = 1;
+        ORG_ONLY = 2;
+        CHAN_ONLY = 3;
         CHAN_AND_ORG = 4;
-        CHAN_OR_ORG  = 5;
+        CHAN_OR_ORG = 5;
     }
 
     Tag tag = 3;
@@ -32,12 +34,13 @@ message GossipMessage {
     }
 }
 
-message Empty {}
+message Empty {
+}
 
 message ConnEstablish {
-    bytes pki_id          = 1;
-    bytes identity        = 2;
-    bytes tls_cert_hash   = 3;
+    bytes pki_id = 1;
+    bytes identity = 2;
+    bytes tls_cert_hash = 3;
 }
 
 message Envelope {
@@ -46,14 +49,14 @@ message Envelope {
 }
 
 message Member {
-    string endpoint  = 1;
-    bytes  metadata  = 2;
-    bytes  pki_id    = 3;
+    string endpoint = 1;
+    bytes metadata = 2;
+    bytes pki_id = 3;
 }
 
 message PeerTime {
-    uint64  inc_num = 1;
-    uint64  seq_num = 2;
+    uint64 inc_num = 1;
+    uint64 seq_num = 2;
 }
 
 message AliveMessage {

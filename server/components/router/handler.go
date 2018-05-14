@@ -3,36 +3,33 @@ package router
 import "net/http"
 
 type Handler interface {
-
-	Get(ctx *Context)
+    Get(ctx *Context)
 }
 
 type PostHandler interface {
-	Get(ctx *Context)
+    Get(ctx *Context)
 
-	Post(ctx *Context)
+    Post(ctx *Context)
 }
 
 type RESTHandler interface {
+    Get(ctx *Context)
 
-	Get(ctx *Context)
+    Update(ctx *Context)
 
-	Update(ctx *Context)
+    Delete(ctx *Context)
 
-	Delete(ctx *Context)
+    Put(ctx *Context)
 
-	Put(ctx *Context)
+    Patch(ctx *Context)
 
-	Patch(ctx *Context)
-
-	Options(ctx *Context)
+    Options(ctx *Context)
 }
 
-type Context struct{
+type Context struct {
+    Request *http.Request
 
-	Request *http.Request
+    Response http.ResponseWriter
 
-	Response http.ResponseWriter
-
-	Params map[string]string
+    Params map[string]string
 }

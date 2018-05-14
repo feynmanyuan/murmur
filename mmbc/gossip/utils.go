@@ -10,6 +10,5 @@ import "google.golang.org/grpc"
 
 func NewGRPCServer() (*grpc.Server, error) {
 
-
-	return nil, nil
+    return nil, nil
 }
